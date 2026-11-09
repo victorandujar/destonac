@@ -1,0 +1,57 @@
+---
+import { Image } from 'astro:assets';
+import Building from './Building.astro';
+import { plantas } from '../data/recorrido';
+---
+<section id="recorrido" aria-labelledby="recorrido-t" class="relative border-b border-linea bg-papel">
+  <div class="mx-auto max-w-[90rem] px-4 pt-20 sm:px-8 sm:pt-28">
+    <p class="mono text-marino" data-reveal>Planta a planta</p>
+    <h2 id="recorrido-t" class="titular mt-4 max-w-4xl text-[clamp(2.25rem,5vw,4.25rem)]" data-reveal style="--i:1">Bajamos por el edificio y te enseñamos qué hacemos en cada planta.</h2>
+  </div>
+
+  <!-- Indicador de planta en móvil -->
+  <div class="sticky top-16 z-30 mt-10 border-y border-linea bg-papel/95 backdrop-blur lg:hidden" aria-hidden="true">
+    <ol class="mx-auto flex max-w-[90rem] gap-1 overflow-x-auto px-4 py-2 sm:px-8" data-mini>
+      {plantas.map((p) => <li data-mini-item={p.id} class="mono shrink-0 rounded px-2.5 py-1.5 text-tinta-2 transition-colors data-[on]:bg-marino data-[on]:text-white">{p.n} {p.label}</li>)}
+    </ol>
+  </div>
+
+  <div class="mx-auto grid max-w-[90rem] gap-10 px-4 pb-20 sm:px-8 sm:pb-28 lg:grid-cols-12 lg:gap-14" data-recorrido>
+    <!-- Edificio fijo (escritorio) -->
+    <div class="hidden lg:col-span-5 lg:block">
+      <div class="blueprint sticky top-24 overflow-hidden rounded-xl bg-noche p-6 text-white/50">
+        <Building title="Edificio: la planta del recorrido aparece iluminada" class="w-full" />
+        <p class="mono mt-2 flex items-center justify-between text-white/70"><span>Estás en</span><span class="text-cielo" data-current aria-live="polite">{plantas[0]?.label}</span></p>
+      </div>
+    </div>
+
+    <ol class="lg:col-span-7">
+      {plantas.map((p) => (
+        <li id={`planta-${p.id}`} data-planta={p.id} data-label={p.label} class="border-t border-linea py-14 first:border-t-0 lg:min-h-[85vh] lg:py-20">
+          <p class="mono flex items-center gap-3 text-marino" data-reveal><span class="rounded bg-marino px-2 py-1 text-white">{p.n}</span>{p.label}</p>
+          <h3 class="titular mt-5 text-[clamp(1.85rem,3.4vw,2.9rem)]" data-reveal style="--i:1">{p.title}</h3>
+          <p class="mt-4 max-w-xl text-lg text-tinta-2" data-reveal style="--i:2">{p.text}</p>
+          <div class:list={['mt-8 grid gap-3', p.fotos.length >= 3 ? 'grid-cols-6' : 'grid-cols-2']}>
+            {p.fotos.map((f, i) => (
+              <figure
+                class:list={[
+                  'group overflow-hidden rounded-lg bg-papel-2',
+                  p.fotos.length >= 3 && (i === 0 ? 'col-span-6 sm:col-span-4 sm:row-span-2' : 'col-span-3 sm:col-span-2'),
+                ]}
+                data-reveal="clip"
+                style={`--i:${i + 2}`}
+              >
+                <Image src={f.img} alt={f.alt} widths={[360, 560, 800]} sizes="(min-width: 1024px) 34vw, 90vw" class:list={['h-full w-full object-cover transition-transform duration-700 group-hover:scale-[1.04]', i === 0 && p.fotos.length >= 3 ? 'aspect-[4/5] sm:aspect-auto' : 'aspect-[4/5]']} loading="lazy" />
+              </figure>
+            ))}
+          </div>
+        </li>
+      ))}
+    </ol>
+  </div>
+</section>
+
+<script>
+  import { initRecorrido } from '../scripts/recorrido';
+  document.querySelectorAll<HTMLElement>('[data-recorrido]').forEach(initRecorrido);
+</script>
