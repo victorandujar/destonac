@@ -1,0 +1,20 @@
+---
+import { business } from '../data/business';
+import { especialidades } from '../data/especialidades';
+const schema = {
+  '@context': 'https://schema.org',
+  '@type': 'HVACBusiness',
+  '@id': new URL('/#negocio', Astro.site).href,
+  name: business.name,
+  legalName: business.legalName,
+  url: Astro.site?.href,
+  logo: new URL('/logo.svg', Astro.site).href,
+  image: new URL('/og.png', Astro.site).href,
+  telephone: business.phone.e164,
+  email: business.email,
+  address: { '@type': 'PostalAddress', streetAddress: business.street, postalCode: business.postalCode, addressLocality: business.city, addressRegion: business.region, addressCountry: 'ES' },
+  areaServed: business.areaServed.map((name) => ({ '@type': 'AdministrativeArea', name })),
+  hasOfferCatalog: { '@type': 'OfferCatalog', name: 'Especialidades', itemListElement: especialidades.map((e) => ({ '@type': 'Offer', itemOffered: { '@type': 'Service', name: e.name, description: e.text } })) },
+};
+---
+<script type="application/ld+json" set:html={JSON.stringify(schema)} />
