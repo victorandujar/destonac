@@ -1,0 +1,7 @@
+---
+import logo from '../assets/brand/logo.svg?raw';
+interface Props { class?: string }
+const { class: cls = '' } = Astro.props;
+const svg = logo.replace('<svg ', '<svg aria-hidden="true" focusable="false" ');
+---
+<span class:list={['inline-block [&>svg]:h-full [&>svg]:w-auto', cls]} set:html={svg} />
