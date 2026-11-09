@@ -1,0 +1,29 @@
+---
+import Building from './Building.astro';
+import { business } from '../data/business';
+---
+<section aria-labelledby="hero-t" class="blueprint relative isolate overflow-hidden bg-noche text-white">
+  <div class="pointer-events-none absolute inset-0 -z-10" style="background: radial-gradient(70rem 40rem at 78% 60%, rgb(16 64 128 / 0.55), transparent 65%);" aria-hidden="true"></div>
+  <div class="mx-auto grid min-h-[calc(100svh-6.25rem)] max-w-[90rem] items-center gap-6 px-4 pb-24 pt-12 sm:px-8 md:pb-12 lg:grid-cols-12">
+    <div class="lg:col-span-6 xl:col-span-6">
+      <p class="mono text-cielo" data-reveal>{business.city} · Baix Llobregat</p>
+      <h1 id="hero-t" class="titular mt-5 text-[clamp(2.75rem,6.6vw,5.75rem)]" data-reveal style="--i:1">
+        De la cubierta<br />a tu oficina<span class="text-cielo">.</span>
+      </h1>
+      <p class="mt-6 max-w-xl text-lg text-white/80 sm:text-xl" data-reveal style="--i:2">
+        Climatización, ventilación y frío industrial, con electricidad, fontanería y reformas. Un técnico que conoce todo el edificio, de arriba abajo.
+      </p>
+      <div class="mt-9 flex flex-wrap gap-3" data-reveal style="--i:3">
+        <a href="#contacto" class="btn btn-cielo">Pedir presupuesto</a>
+        <a href="#recorrido" class="btn btn-line">Recorrer el edificio ↓</a>
+      </div>
+      <dl class="mt-12 grid max-w-lg grid-cols-2 gap-6 border-t border-white/15 pt-6" data-reveal style="--i:4">
+        <div><dt class="mono text-white/60">Experiencia del equipo</dt><dd class="titular mt-1 text-3xl">{business.experiencia}</dd></div>
+        <div><dt class="mono text-white/60">{business.rating.source}</dt><dd class="titular mt-1 text-3xl">{business.rating.value}<span class="text-lg text-white/60">/{business.rating.scale}</span> <span class="block text-sm font-normal text-white/60">{business.rating.count} reseñas</span></dd></div>
+      </dl>
+    </div>
+    <div class="relative lg:col-span-6 lg:-mb-12 lg:self-end" data-reveal style="--i:2">
+      <Building title="Sección de un edificio: cubierta con máquinas y grúa, fachada, techo técnico con conductos, oficina y vivienda" class="mx-auto w-full max-w-[34rem] text-cielo-claro/80" />
+    </div>
+  </div>
+</section>

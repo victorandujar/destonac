@@ -1,0 +1,27 @@
+---
+import Base from '../layouts/Base.astro';
+import Header from '../components/Header.astro';
+import Hero from '../components/Hero.astro';
+import Recorrido from '../components/Recorrido.astro';
+import Especialidades from '../components/Especialidades.astro';
+import Mantenimiento from '../components/Mantenimiento.astro';
+import Contacto from '../components/Contacto.astro';
+import Footer from '../components/Footer.astro';
+import MobileBar from '../components/MobileBar.astro';
+---
+<Base
+  title="Destonac · Climatización, frío industrial e instalaciones en Viladecans"
+  description="Destonac S.L.: climatización, ventilación, frío industrial, electricidad, fontanería, reformas y mantenimiento en Viladecans y el Baix Llobregat. Técnicos con más de 30 años de experiencia."
+  schema
+>
+  <Header />
+  <main id="contenido">
+    <Hero />
+    <Recorrido />
+    <Especialidades />
+    <Mantenimiento />
+    <Contacto />
+  </main>
+  <Footer />
+  <MobileBar />
+</Base>

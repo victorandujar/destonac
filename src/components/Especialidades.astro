@@ -1,0 +1,21 @@
+---
+import { especialidades } from '../data/especialidades';
+---
+<section id="especialidades" aria-labelledby="esp-t" class="border-b border-linea bg-white">
+  <div class="mx-auto grid max-w-[90rem] gap-12 px-4 py-20 sm:px-8 sm:py-28 lg:grid-cols-12">
+    <div class="lg:col-span-4">
+      <p class="mono text-marino" data-reveal>Especialidades</p>
+      <h2 id="esp-t" class="titular mt-4 text-[clamp(2.25rem,4.5vw,3.75rem)]" data-reveal style="--i:1">Un solo equipo para toda la instalación</h2>
+      <p class="mt-5 text-lg text-tinta-2" data-reveal style="--i:2">Técnicos con más de 30 años de experiencia y una red propia de colaboradores para cada oficio.</p>
+    </div>
+    <ol class="lg:col-span-8">
+      {especialidades.map((e, i) => (
+        <li class="group grid grid-cols-[4.5rem_1fr] items-baseline gap-4 border-t border-linea py-6 transition-colors last:border-b hover:bg-papel sm:grid-cols-[5.5rem_1fr_1.2fr] sm:gap-8 sm:px-3" data-reveal style={`--i:${i}`}>
+          <span class="mono rounded border border-marino/30 px-2 py-1 text-center text-marino transition-colors group-hover:bg-marino group-hover:text-white">{e.code}</span>
+          <h3 class="text-xl font-semibold sm:text-2xl">{e.name}</h3>
+          <p class="col-span-2 text-tinta-2 sm:col-span-1">{e.text}</p>
+        </li>
+      ))}
+    </ol>
+  </div>
+</section>

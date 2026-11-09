@@ -1,0 +1,7 @@
+---
+import { business, telUrl } from '../data/business';
+---
+<nav aria-label="Contacto rápido" class="fixed inset-x-0 bottom-0 z-40 grid grid-cols-2 border-t border-linea bg-white md:hidden">
+  <a href={telUrl} class="flex min-h-14 items-center justify-center font-semibold text-marino">Llamar</a>
+  <a href={`mailto:${business.email}`} class="flex min-h-14 items-center justify-center bg-marino font-semibold text-white">Email</a>
+</nav>

@@ -1,0 +1,22 @@
+---
+import { Image } from 'astro:assets';
+import techo from '../assets/obras/mantenimiento-techo.jpg';
+import { telUrl, business } from '../data/business';
+---
+<section id="mantenimiento" aria-labelledby="mant-t" class="blueprint relative overflow-hidden bg-marino-2 text-white">
+  <div class="mx-auto grid max-w-[90rem] items-center gap-12 px-4 py-20 sm:px-8 sm:py-24 lg:grid-cols-12">
+    <div class="lg:col-span-6">
+      <p class="mono text-cielo" data-reveal>Empresas · comunidades · particulares</p>
+      <h2 id="mant-t" class="titular mt-4 text-[clamp(2.25rem,4.5vw,3.75rem)]" data-reveal style="--i:1">Mantenimiento preventivo y correctivo</h2>
+      <p class="mt-5 max-w-lg text-lg text-white/80" data-reveal style="--i:2">Revisamos los equipos antes de que fallen y, si fallan, los diagnosticamos y reparamos. Para que la climatización de tu negocio no se pare en pleno agosto.</p>
+      <div class="mt-8 flex flex-wrap gap-3" data-reveal style="--i:3">
+        <a href="#contacto" class="btn btn-cielo">Pedir revisión</a>
+        <a href={telUrl} class="btn btn-line">Llamar al {business.phone.display}</a>
+      </div>
+    </div>
+    <figure class="lg:col-span-5 lg:col-start-8" data-reveal="clip">
+      <Image src={techo} alt="Escalera bajo un equipo de climatización abierto en el techo durante una intervención" widths={[360, 560]} sizes="(min-width: 1024px) 30vw, 90vw" class="aspect-[4/5] w-full max-w-md rounded-xl object-cover" loading="lazy" />
+      <figcaption class="mono mt-3 text-white/60">Intervención en un equipo de techo</figcaption>
+    </figure>
+  </div>
+</section>
