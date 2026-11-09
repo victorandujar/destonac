@@ -1,0 +1,63 @@
+---
+import { business, telUrl } from '../data/business';
+const tipos = ['Instalación nueva', 'Avería / reparación', 'Mantenimiento', 'Reforma', 'Otro'];
+const field = 'mt-2 w-full rounded-md border border-linea bg-white px-4 py-3 text-tinta placeholder:text-tinta-2/60 focus:border-marino focus:outline-none aria-[invalid=true]:border-[#b42318]';
+---
+<section id="contacto" aria-labelledby="contacto-t" class="bg-papel">
+  <div class="mx-auto grid max-w-[90rem] gap-14 px-4 py-20 sm:px-8 sm:py-28 lg:grid-cols-12">
+    <div class="lg:col-span-5">
+      <p class="mono text-marino" data-reveal>Contacto</p>
+      <h2 id="contacto-t" class="titular mt-4 text-[clamp(2.25rem,4.5vw,3.75rem)]" data-reveal style="--i:1">Cuéntanos qué necesitas</h2>
+      <dl class="mt-10 grid gap-6 text-lg" data-reveal style="--i:2">
+        <div><dt class="mono text-tinta-2">Teléfono</dt><dd class="mt-1"><a href={telUrl} class="titular text-3xl text-marino hover:underline">{business.phone.display}</a></dd></div>
+        <div><dt class="mono text-tinta-2">Email</dt><dd class="mt-1"><a href={`mailto:${business.email}`} class="hover:underline">{business.email}</a></dd></div>
+        <div><dt class="mono text-tinta-2">Oficina</dt><dd class="mt-1">{business.street}<br />{business.postalCode} {business.city} · <a class="underline underline-offset-4" href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(`Destonac ${business.street} ${business.city}`)}`} rel="noopener" target="_blank">Cómo llegar</a></dd></div>
+      </dl>
+    </div>
+    <form id="quote-form" class="grid content-start gap-5 rounded-xl border border-linea bg-white p-6 shadow-[0_30px_60px_-40px_rgb(7_21_48/0.4)] sm:p-8 lg:col-span-7" novalidate data-reveal style="--i:1">
+      <fieldset>
+        <legend class="mono text-tinta-2">Tipo de trabajo</legend>
+        <div class="mt-3 flex flex-wrap gap-2">
+          {tipos.map((t, i) => (
+            <label class="cursor-pointer">
+              <input type="radio" name="tipo" value={t} class="peer sr-only" checked={i === 0} />
+              <span class="inline-flex min-h-11 items-center rounded-md border border-linea px-4 transition-colors peer-checked:border-marino peer-checked:bg-marino peer-checked:text-white peer-focus-visible:outline peer-focus-visible:outline-2 peer-focus-visible:outline-cielo">{t}</span>
+            </label>
+          ))}
+        </div>
+      </fieldset>
+      <div class="grid gap-5 sm:grid-cols-2">
+        <div><label for="nombre" class="mono text-tinta-2">Nombre o empresa</label><input id="nombre" name="nombre" autocomplete="organization" required maxlength="80" class={field} aria-describedby="err-nombre" /><p id="err-nombre" class="mt-1 min-h-5 text-sm text-[#b42318]" aria-live="polite"></p></div>
+        <div><label for="contacto" class="mono text-tinta-2">Teléfono o email</label><input id="contacto" name="contacto" required maxlength="80" class={field} aria-describedby="err-contacto" /><p id="err-contacto" class="mt-1 min-h-5 text-sm text-[#b42318]" aria-live="polite"></p></div>
+      </div>
+      <div><label for="detalle" class="mono text-tinta-2">Detalles</label><textarea id="detalle" name="detalle" rows="4" maxlength="800" placeholder="Ej.: oficina de 200 m², necesitamos climatización por conductos" class:list={[field, 'resize-y']}></textarea></div>
+      <div class="flex flex-wrap items-center justify-between gap-4">
+        <p class="max-w-sm text-sm text-tinta-2">Se abrirá tu correo con el mensaje preparado para {business.email}. Esta web no guarda tus datos.</p>
+        <button type="submit" class="btn btn-marino">Preparar email</button>
+      </div>
+    </form>
+  </div>
+</section>
+
+<script>
+  import { business } from '../data/business';
+  const form = document.querySelector<HTMLFormElement>('#quote-form');
+  const v = (d: FormData, k: string): string => String(d.get(k) ?? '').trim();
+  form?.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const d = new FormData(form);
+    const q = { tipo: v(d, 'tipo'), nombre: v(d, 'nombre'), contacto: v(d, 'contacto'), detalle: v(d, 'detalle') };
+    const errors: Record<string, string> = {};
+    if (q.nombre.length < 2) errors.nombre = 'Indica tu nombre o el de tu empresa.';
+    if (!/^(\+?[\d\s]{9,}|[^@\s]+@[^@\s]+\.[^@\s]+)$/.test(q.contacto)) errors.contacto = 'Escribe un teléfono o un email válido.';
+    for (const k of ['nombre', 'contacto']) {
+      const out = form.querySelector(`#err-${k}`);
+      if (out) out.textContent = errors[k] ?? '';
+      form.querySelector(`[name="${k}"]`)?.setAttribute('aria-invalid', String(Boolean(errors[k])));
+    }
+    const first = Object.keys(errors)[0];
+    if (first) { form.querySelector<HTMLElement>(`[name="${first}"]`)?.focus(); return; }
+    const body = [`Nombre: ${q.nombre}`, `Contacto: ${q.contacto}`, `Tipo: ${q.tipo}`, q.detalle && `\n${q.detalle}`].filter(Boolean).join('\n');
+    window.location.href = `mailto:${business.email}?subject=${encodeURIComponent(`Solicitud: ${q.tipo}`)}&body=${encodeURIComponent(body)}`;
+  });
+</script>

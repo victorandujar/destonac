@@ -1,0 +1,17 @@
+---
+import Logo from './Logo.astro';
+import { business, telUrl } from '../data/business';
+import { isDemo } from '../lib/site';
+---
+<footer class="blueprint border-t border-white/10 bg-noche pb-24 text-white md:pb-0">
+  <div class="mx-auto max-w-[90rem] px-4 py-14 sm:px-8">
+    <span class="text-white" style="--logo-sky: var(--color-cielo)"><Logo class="h-12" /></span>
+    <div class="mt-10 grid gap-8 border-t border-white/15 pt-8 text-white/80 sm:grid-cols-2 lg:grid-cols-4">
+      <div><p class="mono text-white/50">Empresa</p><p class="mt-2">{business.legalName}<br />{business.city}, {business.region}</p></div>
+      <div><p class="mono text-white/50">Contacto</p><p class="mt-2"><a href={telUrl} class="hover:underline">{business.phone.display}</a><br /><a href={`mailto:${business.email}`} class="hover:underline">{business.email}</a></p></div>
+      <div><p class="mono text-white/50">Dirección</p><p class="mt-2">{business.street}<br />{business.postalCode} {business.city}</p></div>
+      <nav aria-label="Legal"><p class="mono text-white/50">Legal</p><ul class="mt-2"><li><a href="/aviso-legal" class="hover:underline">Aviso legal</a></li><li><a href="/privacidad" class="hover:underline">Privacidad</a></li></ul></nav>
+    </div>
+    <p class="mono mt-12 flex flex-wrap justify-between gap-4 text-[0.7rem] text-white/50"><span>© {new Date().getFullYear()} {business.legalName}</span>{isDemo && <span>Propuesta no oficial · Web Local Growth</span>}</p>
+  </div>
+</footer>
